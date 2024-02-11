@@ -1,11 +1,12 @@
-import { Header } from "@/components/header/header";
+import { StatusGrid } from "@/components/status-grid/status-grid"
+import { fetchDeliveries } from "@/data/fetchDeliveries"
 
-export default function Home() {
+export default async function Home() {
+  const deliveries = await fetchDeliveries()
+
   return (
-    <main className="flex flex-col items-center justify-between">
-
-
-
+    <main className="flex py-4">
+      <StatusGrid deliveries={deliveries} />
     </main>
-  );
+  )
 }
