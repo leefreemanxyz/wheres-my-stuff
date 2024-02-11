@@ -11,6 +11,7 @@ export const categories = ["truck", "ship", "plane"] as const
 
 export const items = [
   "meatball machine",
+  "ABBA Gold CD",
   "chair",
   "bookcase",
   "table",

@@ -1,81 +1,13 @@
-import { DeliveryType, SingleDeliveryType } from "@/types/delivery"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "../ui/card"
-import {
-    Collapsible,
-    CollapsibleTrigger,
-    CollapsibleContent,
-} from "../ui/collapsible"
-import Image from "next/image"
+import { DeliveryType } from "@/types/delivery"
+import { GridColumn } from "../grid-column/grid-column"
+import { DeliveryList } from "../delivery-list/delivery-list"
 
-export const DeliveryCard = ({ delivery }: { delivery: SingleDeliveryType }) => {
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>{delivery.id}</CardTitle>
-                <CardDescription className="capitalize">
-                    Category: {delivery.category}
-                </CardDescription>
-                <CardDescription>
-                    Expected on: {delivery.plannedDeliveryDate.toLocaleString("en-GB")}
-                </CardDescription>
-                {delivery.actualDeliveryDate && (
-                    <CardDescription>
-                        Delivered on: {delivery.actualDeliveryDate.toLocaleString("en-GB")}
-                    </CardDescription>
-                )}
-            </CardHeader>
-            <CardContent>
-                <Collapsible>
-                    <CollapsibleTrigger className="flex justify-between w-full">
-                        Items in delivery{" "}
-                        <Image src="/chevron-down.svg" width="24" height="24" alt="" />
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                        <ul>
-                            {delivery.items.map((item) => {
-                                return (
-                                    <li className="capitalize" key={item.name}>
-                                        {item.name}: {item.quantity}
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                    </CollapsibleContent>
-                </Collapsible>
-            </CardContent>
-        </Card>
-    )
-}
 
-export const GridColumn = ({
-    groupedDeliveries,
-}: {
-    groupedDeliveries: DeliveryType
-}) => {
-    const title = groupedDeliveries[0].status
-    return (
-        <div>
-            <h3 className="capitalize">
-                {title} ({groupedDeliveries.length})
-            </h3>
-            <div className="flex flex-col gap-4">
-                {groupedDeliveries.map((delivery) => {
-                    return (
-                        <DeliveryCard key={delivery.id} delivery={delivery}></DeliveryCard>
-                    )
-                })}
-            </div>
-        </div>
-    )
-}
+
 
 export const StatusGrid = ({ deliveries }: { deliveries: DeliveryType }) => {
+
+    // if this proves to be an expensive operation we can apply useMemo here
     const deliveriesByStatus = deliveries.reduce((acc, delivery) => {
         if (!acc[delivery.status]) {
             acc[delivery.status] = []
@@ -87,17 +19,31 @@ export const StatusGrid = ({ deliveries }: { deliveries: DeliveryType }) => {
     return (
         <div className="grid md:grid-cols-4 grid-cols-1 container gap-4">
             <GridColumn
-                groupedDeliveries={deliveriesByStatus["planned"]}
-            ></GridColumn>
+                title={"Planned"}
+                total={deliveriesByStatus['planned'].length}
+            >
+                <DeliveryList deliveries={deliveriesByStatus["planned"]} />
+            </GridColumn>
             <GridColumn
-                groupedDeliveries={deliveriesByStatus["in-progress"]}
-            ></GridColumn>
+                title={"In Progress"}
+                total={deliveriesByStatus['in-progress'].length}
+            >
+                <DeliveryList deliveries={deliveriesByStatus["in-progress"]} />
+            </GridColumn>
             <GridColumn
-                groupedDeliveries={deliveriesByStatus["delivered"]}
-            ></GridColumn>
+                title={"Delivered"}
+                total={deliveriesByStatus['delivered'].length}
+            >
+                <DeliveryList deliveries={deliveriesByStatus["delivered"]} />
+            </GridColumn>
             <GridColumn
-                groupedDeliveries={deliveriesByStatus["unknown"]}
-            ></GridColumn>
+                title={"Unknown"}
+                total={deliveriesByStatus['unknown'].length}
+            >
+                <DeliveryList deliveries={deliveriesByStatus["unknown"]} />
+            </GridColumn>
+
+
         </div>
     )
 }
