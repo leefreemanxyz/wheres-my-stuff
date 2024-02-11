@@ -12,9 +12,10 @@ The URL is a great place to store state! Which store is the user working in? Whi
 
 ## A separate page for a given delivery
 
-| Purpose | Filepath | URL |
-| List deliveries| /deliveries/page.tsx | /deliveries |
-| List a delivery | /deliveries/[...id] | /deliveries/:id |
+| Purpose         | Filepath             | URL             |
+| --------------- | -------------------- | --------------- |
+| List deliveries | /deliveries/page.tsx | /deliveries     |
+| List a delivery | /deliveries/[...id]  | /deliveries/:id |
 
 ## Making the application responsive
 
