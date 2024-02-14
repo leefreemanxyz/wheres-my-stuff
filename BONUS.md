@@ -20,3 +20,7 @@ The URL is a great place to store state! Which store is the user working in? Whi
 ## Making the application responsive
 
 We should employ a mobile-first design, expanding for bigger screens if necessary for the end-users. I've added a media query to change the number of columns on larger screens, but it defaults to a single column on mobile devices.
+
+## Testing
+
+I haven't added any tests for this as there isn't really any logic to test in the application and all the UI components in shadcn/Radix will have their own tests. Normally I'd use Jest/Vitest and Testing Library for React testing and Playwright for e2e/integration-y testing. Very happy to discuss testing strategies together.
